@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  oaksgen-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oaksgen_engineering_api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=info
+    volumes:
+      - ./models:/app/models
+      - ./datos:/app/datos
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
